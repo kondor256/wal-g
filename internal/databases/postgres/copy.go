@@ -78,6 +78,7 @@ func HistoryCopyingInfo(backup Backup, from storage.Folder, to storage.Folder) (
 	tracelog.DebugLogger.Print("Collecting history files... ")
 
 	var fromWalFolder = from.GetSubFolder(utility.WalPath)
+	var toWalFolder = to.GetSubFolder(utility.WalPath)
 
 	var lastWalFilename, err = GetLastWalFilename(backup)
 	if err != nil {
@@ -94,7 +95,8 @@ func HistoryCopyingInfo(backup Backup, from storage.Folder, to storage.Folder) (
 	var older = func(object storage.Object) bool { return lastWalFilename <= object.GetName() }
 	return copy.BuildCopyingInfos(
 		fromWalFolder,
-		to,
+//		to,
+		toWalFolder,
 		objects,
 		older,
 		copy.NoopRenameFunc,
